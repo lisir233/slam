@@ -1,0 +1,8 @@
+prefix=/home/loop/ros_workspace/cartographer_detailed_comments_ws/devel_isolated/bag_tools
+
+Name: bag_tools
+Description: Description of bag_tools
+Version: 0.0.3
+Cflags: -I/home/loop/ros_workspace/cartographer_detailed_comments_ws/src/srv_tools/bag_tools/include
+Libs: -L${prefix}/lib 
+Requires: rosbag

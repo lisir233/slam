@@ -1,0 +1,8 @@
+prefix=/home/loop/ros_workspace/cartographer_detailed_comments_ws/devel_isolated/pcl_test
+
+Name: pcl_test
+Description: Description of pcl_test
+Version: 0.0.1
+Cflags: -I/home/loop/ros_workspace/cartographer_detailed_comments_ws/src/pcl_test/include
+Libs: -L${prefix}/lib 
+Requires: roscpp sensor_msgs pcl_ros

@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  serial 
 )
 
 ## System dependencies are found with CMake's conventions
@@ -204,3 +205,6 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+add_executable(send_odom_data src/send_odom_data.cpp)
+target_link_libraries(send_odom_data ${catkin_LIBRARIES})
+#add_dependencies(send_odom_data beginner_tutorials_generate_messages_cpp)

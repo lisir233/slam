@@ -1,0 +1,22 @@
+<launch>
+<!--node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_laser" args="0 0 0.2 3.14159 0 0  /base_link /laser"/>
+<node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_imu" args="0 0 0 0 0 0  /base_link /imu_link"/-->
+
+  <param name="robot_description"
+    textfile="$(find cartographer_ros)/urdf/turtle_rfans_addimu.urdf" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+    type="robot_state_publisher" />
+ <!-- Odom-IMU Extended Kalman Filter-->
+    <!--node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
+        <remap from="odometry/filtered" to="odom" />
+        <rosparam command="load" file="$(find bag_player)/param/ekf/robot_localization.yaml" />
+    </node-->
+  <!-- bag的地址与名称 -->
+  <arg name="bag_filename" default="$(env HOME)/robot/bagfiles/2022-10-29-20-44-37.bag"/>
+  <arg name="topic_list" default="/imu/data /odom /rslidar_points"/>
+  <!-- 启动rosbag -->
+  <node name="playbag" pkg="rosbag" type="play" args="--clock $(arg bag_filename) " />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_base_footprint" args="0 0 0 0 0 0.05  /base_footprint /base_link"/>
+      
+</launch>

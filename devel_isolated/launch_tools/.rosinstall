@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/loop/ros_workspace/cartographer_detailed_comments_ws/devel_isolated/launch_tools/setup.sh

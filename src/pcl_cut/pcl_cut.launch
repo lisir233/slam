@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="pcl_cut" type="pcl_cut_node" name="pcl_cut_node" output="screen"/>
+</launch>
