@@ -48,25 +48,6 @@ void PointcloudDealCore::projection_3D_to_2D_pt(double power_threshold,  pcl::Po
     proj.filter(*out);
 
 } 
-bool
-customRegionGrowing(const PointTypeFull& point_a, const PointTypeFull& point_b, float squared_distance)//区域生长
-{
-	Eigen::Map<const Eigen::Vector3f> point_a_normal = point_a.getNormalVector3fMap(), point_b_normal = point_b.getNormalVector3fMap();
-	if (squared_distance < 10000)
-	{
-		if (fabs(point_a.intensity - point_b.intensity) < 8.0f)//如果a点的密度-b点的密度<8
-			return (true);
-		if (fabs(point_a_normal.dot(point_b_normal)) < 0.06)//如果a点法线估计
-			return (true);
-	}
-	else
-	{
-		if (fabs(point_a.intensity - point_b.intensity) < 3.0f)
-			return (true);
-	}
-	return (false);
-}
-
 // void PointcloudDealCore::euclideanclustering_pt(double power_threshold,  pcl::PointCloud<pcl::PointXYZI>::Ptr in,
 //                                    pcl::PointCloud<pcl::PointXYZI>::Ptr out)
 // {
@@ -128,51 +109,93 @@ customRegionGrowing(const PointTypeFull& point_a, const PointTypeFull& point_b, 
 // }  
 
 
-void PointcloudDealCore::euclideanclustering_pt(double power_threshold,  pcl::PointCloud<pcl::PointXYZI>::Ptr in,
-                                   pcl::PointCloud<pcl::PointXYZI>::Ptr out,pcl::PointCloud<pcl::PointXYZI>::Ptr source)
+// void PointcloudDealCore::euclideanclustering_pt(double power_threshold,  pcl::PointCloud<pcl::PointXYZI>::Ptr in,
+//                                    pcl::PointCloud<pcl::PointXYZI>::Ptr out,pcl::PointCloud<pcl::PointXYZI>::Ptr source)
+// {
+// 	std::vector<pcl::PointIndices> cluster_indices;
+// 	pcl::search::KdTree<pcl::PointXYZI>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZI>);
+// 	pcl::EuclideanClusterExtraction<pcl::PointXYZI> euclid;
+// 	euclid.setInputCloud(in);
+// 	euclid.setClusterTolerance(0.05);
+// 	euclid.setMinClusterSize(MIN_CLUSTER_SIZE);
+// 	euclid.setMaxClusterSize(MAX_CLUSTER_SIZE);
+// 	euclid.setSearchMethod(tree);
+// 	euclid.extract(cluster_indices);
+// 	std::cout <<"cluster_indices size:"<<cluster_indices.size()<<std::endl;
+// 	int point_count = 0;
+// 	int j = 0;
+// 	for (std::vector<pcl::PointIndices>::const_iterator  it = cluster_indices.begin(); it != cluster_indices.end(); ++it)
+// 	{
+// 		//通过下标，逐个填充
+// 			point_count = 0;
+// 			j++;
+// 			for (std::vector<int>::const_iterator  pit = it->indices.begin(); pit != it->indices.end(); pit++)
+// 			{	
+// 				auto pp = source->points[*pit]; //将分类后的点云染色并发布
+// 				pp.intensity = j*30;
+// 				//pp.intensity = 30;
+// 				out->points.push_back(pp); //*
+// 				point_count++;
+// 			}
+// 			std::cout << "number"<< j <<"point_count "<<point_count<<std::endl;	
+
+// 	}
+// 	out->width = out->points.size();
+// 	out->height = 1;
+// 	out->is_dense = true;
+
+// }
+/*
+欧几里得聚类
+输入：去除地面点后的点云
+输出：聚类后的点云组
+*/
+void PointcloudDealCore::euclideanclustering_pt(double ClusterTolerance,  pcl::PointCloud<pcl::PointXYZI>::Ptr in,
+                                   std::vector<pcl::PointIndices>* cluster_indices)
 {
-	std::vector<pcl::PointIndices> cluster_indices;
 	pcl::search::KdTree<pcl::PointXYZI>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZI>);
 	pcl::EuclideanClusterExtraction<pcl::PointXYZI> euclid;
 	euclid.setInputCloud(in);
-	euclid.setClusterTolerance(0.05);
+	euclid.setClusterTolerance(ClusterTolerance);
 	euclid.setMinClusterSize(MIN_CLUSTER_SIZE);
 	euclid.setMaxClusterSize(MAX_CLUSTER_SIZE);
 	euclid.setSearchMethod(tree);
-	euclid.extract(cluster_indices);
-	std::cout <<"cluster_indices size:"<<cluster_indices.size()<<std::endl;
-	int point_count = 0;
-	int j = 0;
-	for (std::vector<pcl::PointIndices>::const_iterator  it = cluster_indices.begin(); it != cluster_indices.end(); ++it)
-	{
-		//通过下标，逐个填充
-			point_count = 0;
-			j++;
-			for (std::vector<int>::const_iterator  pit = it->indices.begin(); pit != it->indices.end(); pit++)
-			{	
-				auto pp = source->points[*pit]; //将分类后的点云染色并发布
-				pp.intensity = j*30;
-				//pp.intensity = 30;
-				out->points.push_back(pp); //*
-				point_count++;
-			}
-			std::cout << "number"<< j <<"point_count "<<point_count<<std::endl;	
+	euclid.extract(*cluster_indices);
+	// int point_count = 0;
+	// int j = 0;
+	// for (std::vector<pcl::PointIndices>::const_iterator  it = cluster_indices.begin(); it != cluster_indices.end(); ++it)
+	// {
+	// 	//通过下标，逐个填充
+	// 		point_count = 0;
+	// 		j++;
+	// 		for (std::vector<int>::const_iterator  pit = it->indices.begin(); pit != it->indices.end(); pit++)
+	// 		{	
+	// 			auto pp = source->points[*pit]; //将分类后的点云染色并发布
+	// 			pp.intensity = j*30;
+	// 			//pp.intensity = 30;
+	// 			out->points.push_back(pp); //*
+	// 			point_count++;
+	// 		}
+	// 		std::cout << "number"<< j <<"point_count "<<point_count<<std::endl;	
 
-	}
-	out->width = out->points.size();
-	out->height = 1;
-	out->is_dense = true;
+	// }
+	// out->width = out->points.size();
+	// out->height = 1;
+	// out->is_dense = true;
 
 }
 
+
 void PointcloudDealCore::point_cb(const sensor_msgs::PointCloud2ConstPtr &in_cloud_ptr)
 {
+	std::vector<pcl::PointIndices> cluster_indices;
     pcl::PointCloud<pcl::PointXYZI>::Ptr current_pc_ptr(new pcl::PointCloud<pcl::PointXYZI>);
     pcl::fromROSMsg(*in_cloud_ptr, *current_pc_ptr);
     pcl::PointCloud<pcl::PointXYZI>::Ptr pc_zip_to_2d_ptr(new pcl::PointCloud<pcl::PointXYZI>);
     pcl::PointCloud<pcl::PointXYZI>::Ptr pc_curvatured_ptr(new pcl::PointCloud<pcl::PointXYZI>);
     projection_3D_to_2D_pt(MIN_DISTANCE, current_pc_ptr, pc_zip_to_2d_ptr);
-    euclideanclustering_pt(MIN_DISTANCE, pc_zip_to_2d_ptr,pc_curvatured_ptr,current_pc_ptr);
-    publish_cloud(pub_curvatured_ptr_, pc_curvatured_ptr, in_cloud_ptr->header);
+    euclideanclustering_pt(CLU_TOLERANCE, pc_zip_to_2d_ptr,&cluster_indices);
+	std::cout <<"cluster_indices size:"<<cluster_indices->size()<<std::endl;
+    //publish_cloud(pub_curvatured_ptr_, pc_curvatured_ptr, in_cloud_ptr->header);
 
 }

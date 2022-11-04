@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
 pcl_ros
 roscpp
 sensor_msgs
+OpenCV
 )
 
 find_package(PCL 1.7 REQUIRED)
@@ -20,6 +21,7 @@ catkin_package(
 include_directories(
  include
  ${catkin_INCLUDE_DIRS}
+ ${OpenCV_INCLUDE_DIRS}
 )
 link_directories(${PCL_LIBRARY_DIRS})
 
@@ -29,4 +31,5 @@ add_executable(${PROJECT_NAME}_node src/pointcloud_deal_node.cpp src/pointcloud_
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
+  ${OpenCV_LIBRARIES}
 )

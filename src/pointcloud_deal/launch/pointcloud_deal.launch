@@ -1,0 +1,5 @@
+<launch>
+  <node name="pcl_test_node" pkg="pcl_test" type="pcl_test_node"/>
+  <node name="pointcloud_deal_node" pkg="pointcloud_deal" type="pointcloud_deal_node" output="screen"/>
+
+</launch>
