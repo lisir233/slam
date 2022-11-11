@@ -1,5 +1,17 @@
 <launch>
   <node name="pcl_test_node" pkg="pcl_test" type="pcl_test_node"/>
   <node name="pointcloud_deal_node" pkg="pointcloud_deal" type="pointcloud_deal_node" output="screen"/>
+  <!-- 将pointcloud2 转换为 LaserScan -->
 
+  <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan_node" 
+      args="
+          -min_height -1.2
+          -max_height  1.2
+          -angle_increment  0.001
+          -range_min 0.35
+          -range_max 50
+          "
+      output="screen">
+    <remap from="cloud_in" to="/filtered_remove_powerintensity"/>
+  </node>
 </launch>

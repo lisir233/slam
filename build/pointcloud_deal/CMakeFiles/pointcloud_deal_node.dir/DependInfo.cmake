@@ -31,6 +31,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/include/freetype2"
   "/usr/include/eigen3"
   "/usr/include/pcl-1.10"
+  "/usr/include/opencv4"
   "/usr/include/ni"
   "/usr/include/openni2"
   )

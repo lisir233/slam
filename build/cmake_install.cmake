@@ -131,7 +131,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/loop/ros_workspace/cartographer_detailed_comments_ws/build/gtest/cmake_install.cmake")
-  include("/home/loop/ros_workspace/cartographer_detailed_comments_ws/build/bag_player/cmake_install.cmake")
 
 endif()
 

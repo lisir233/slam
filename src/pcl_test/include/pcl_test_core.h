@@ -11,13 +11,13 @@
 
 #include <sensor_msgs/PointCloud2.h>
 
-#define CLIP_HEIGHT 1.2 //截取掉高于雷达自身1.2米的点
+#define CLIP_HEIGHT 2 //截取掉高于雷达自身2米的点
 #define MIN_DISTANCE 0.3
 #define RADIAL_DIVIDER_ANGLE 0.18
-#define SENSOR_HEIGHT 1.5 //雷达自身高度
+#define SENSOR_HEIGHT 0.7 //雷达自身高度
 
 #define concentric_divider_distance_ 0.01 //0.1 meters default
-#define min_height_threshold_ 0.05
+#define min_height_threshold_ 0.1
 #define local_max_slope_ 8   //max slope of the ground between points, degree
 #define general_max_slope_ 5 //max slope of the ground in entire point cloud, degree
 #define reclass_distance_threshold_ 0.2

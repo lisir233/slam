@@ -1,2 +1,2 @@
 bag_player:cartographer:cartographer_ros/cartographer_ros:cartographer_ros/cartographer_ros_msgs:cartographer_ros/cartographer_rviz:efficient_online_segmentation:euclidean_cluster:pcl_cut:pcl_test:pointcloud_deal
--DCATKIN_WHITELIST_PACKAGES=bag_player -DCATKIN_DEVEL_PREFIX=/home/loop/ros_workspace/cartographer_detailed_comments_ws/devel -DCMAKE_INSTALL_PREFIX=/home/loop/ros_workspace/cartographer_detailed_comments_ws/install -G Unix Makefiles
+-DCATKIN_WHITELIST_PACKAGES=pointcloud_deal pcl_test bag_player -DCATKIN_DEVEL_PREFIX=/home/loop/ros_workspace/cartographer_detailed_comments_ws/devel -DCMAKE_INSTALL_PREFIX=/home/loop/ros_workspace/cartographer_detailed_comments_ws/install -G Unix Makefiles

@@ -18,7 +18,11 @@
 #include <pcl/segmentation/conditional_euclidean_clustering.h>//条件欧式聚类
 #include <pcl/segmentation/extract_clusters.h>
 
-#define CLU_TOLERANCE 0.05
+#include<opencv2/opencv.hpp>
+#include<opencv2/imgproc/imgproc.hpp>
+
+
+#define CLU_TOLERANCE 0.08
 #define CLIP_HEIGHT 1 //截取掉高于雷达自身1米的点
 #define MIN_DISTANCE 0.3
 #define RADIAL_DIVIDER_ANGLE 0.18
@@ -42,10 +46,12 @@ private:
   void publish_cloud(const ros::Publisher &in_publisher,
                                   const pcl::PointCloud<pcl::PointXYZI>::Ptr in_cloud_to_publish_ptr,
                                   const std_msgs::Header &in_header);
-  void projection_3D_to_2D_pt(double power_threshold,  pcl::PointCloud<pcl::PointXYZI>::Ptr in,
+  void projection_3D_to_2D(pcl::PointCloud<pcl::PointXYZI>::Ptr in,
     pcl::PointCloud<pcl::PointXYZI>::Ptr out);
-  void euclideanclustering_pt(double ClusterTolerance,  pcl::PointCloud<pcl::PointXYZI>::Ptr in,
+  void euclideanclustering(double ClusterTolerance,  pcl::PointCloud<pcl::PointXYZI>::Ptr in,
                                    std::vector<pcl::PointIndices>* cluster_indices);
+  void delete_small_cluster(double length_threshold,  pcl::PointCloud<pcl::PointXYZI>::Ptr source_3d, pcl::PointCloud<pcl::PointXYZI>::Ptr source_2d,
+                                  std::vector<pcl::PointIndices>* cluster_indices,pcl::PointCloud<pcl::PointXYZI>::Ptr out);
 public:
   PointcloudDealCore(ros::NodeHandle &nh);
   ~PointcloudDealCore();

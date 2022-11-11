@@ -15,7 +15,7 @@ find_package(PCL 1.7 REQUIRED)
 
 catkin_package(
   INCLUDE_DIRS include
-  CATKIN_DEPENDS roscpp sensor_msgs pcl_ros
+  CATKIN_DEPENDS roscpp sensor_msgs pcl_ros 
 )
 
 include_directories(
@@ -32,4 +32,5 @@ target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
   ${OpenCV_LIBRARIES}
+  ${OpenCV_LIBS}
 )
