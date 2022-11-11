@@ -1,8 +1,0 @@
-prefix=/home/loop/ros_workspace/cartographer_detailed_comments_ws/install
-
-Name: bag_player
-Description: Description of bag_player
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

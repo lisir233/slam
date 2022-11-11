@@ -1,2 +1,0 @@
-bag_player:cartographer:cartographer_ros/cartographer_ros:cartographer_ros/cartographer_ros_msgs:cartographer_ros/cartographer_rviz:efficient_online_segmentation:euclidean_cluster:pcl_cut:pcl_test:pointcloud_deal
--G Ninja -DCATKIN_DEVEL_PREFIX=/home/loop/ros_workspace/cartographer_detailed_comments_ws/devel_isolated -DCMAKE_INSTALL_PREFIX=/home/loop/ros_workspace/cartographer_detailed_comments_ws/install_isolated
